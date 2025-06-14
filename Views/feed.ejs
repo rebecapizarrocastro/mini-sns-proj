@@ -1,25 +1,64 @@
-<div class="post">
-  <strong><%= post.author %></strong><br />
-  <small><%= post.createdAt.toLocaleString() %></small>
-  <br />
-  <span><%= post.content %></span>
+<div class="card shadow-sm post">
+  <div class="card-body">
+    <!-- Post Author and Date -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <strong class="text-primary">
+        <i class="bi bi-person-circle"></i> <%= post.author %>
+      </strong>
+      <small class="text-muted">
+        <i class="bi bi-clock"></i> <%= post.createdAt.toLocaleString() %>
+      </small>
+    </div>
 
-  <!-- Like button -->
-  <br />
-  <button
-    class="like-button"
-    data-id="<%= post.uuid %>"
-    data-liked="<%= post.isLiked %>"
-  >
-    <%= post.isLiked ? "❤️" : "🤍" %>
-  </button>
-  <span class="likes-count"><%= post.likes.length %> likes</span>
+    <!-- Post Content -->
+    <p class="card-text"><%= post.content %></p>
 
-  <div class="comment-count">Comments (0)</div>
+    <!-- Like Button and Likes Count -->
+    <div class="d-flex align-items-center mb-3">
+      <button
+        class="btn btn-outline-danger btn-sm border-0 like-button"
+        data-id="<%= post.uuid %>"
+        data-liked="<%= post.isLiked %>"
+      >
+        <i class="bi <%= post.isLiked ? 'bi-heart-fill' : 'bi-heart' %>"></i>
+      </button>
+      <span class="text-muted likes-count"><%= post.likes.length %> likes</span>
+    </div>
 
-  <input type="text" class="comment-input" placeholder="Write a comment..." />
-  <button class="add-comment">Add Comment</button>
-
-  <div class="comments"></div>
+    <!-- Comments Section -->
+    <div>
+      <div class="mb-2 comment-count">
+        <i class="bi bi-chat-left-text"></i> Comments (0)
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control comment-input"
+          placeholder="Write a comment..."
+        />
+        <button class="btn btn-primary add-comment">
+          <i class="bi bi-send"></i> Add
+        </button>
+      </div>
+      <div class="comments">
+        <% post.comments.forEach(function(comment) { %>
+        <div
+          class="comment-item d-flex justify-content-between align-items-center mb-2"
+        >
+          <span
+            ><strong><%= comment.username %></strong>: <%= comment.text %></span
+          >
+          <% if (comment.username === username) { %>
+          <button
+            class="btn btn-sm btn-outline-danger delete-comment"
+            data-id="<%= comment._id %>"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+          <% } %>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
 </div>
-<hr />
