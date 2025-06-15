@@ -8,10 +8,6 @@ const feedSchema = new mongoose.Schema(
       default: uuidv4,
       unique: true, // Unique identifier for each feed
     },
-    // title: {
-    //   type: String,
-    //   required: true, // Feed title (required)
-    // },
     content: {
       type: String,
       required: true, // Feed content (required)
@@ -20,11 +16,15 @@ const feedSchema = new mongoose.Schema(
       type: String,
       required: true, // Author name (required)
     },
-    createdAt: {
-      type: Date,
-      default: Date.now, // Automatically set to current time
-    },
-    likes: [{ type: String }], // Array of usernames who liked the feed
+    likes: [String], // Array of usernames who liked the post
+    comments: [
+      {
+        username: String,
+        text: String,
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
+    createdAt: { type: Date, default: Date.now },
   },
   { collection: "feed" }
 ); // Explicitly specify the collection name

@@ -1,11 +1,12 @@
-.login-container {
+.register-container {
   width: 400px;
   margin: 0 auto;
   padding: 20px;
-  background-color: black;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
 input {
   width: 100%;
   box-sizing: border-box;
@@ -15,9 +16,10 @@ input {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
+
 button {
   padding: 10px 20px;
-  background-color: #344ddb;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 3px;

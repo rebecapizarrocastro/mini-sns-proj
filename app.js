@@ -11,6 +11,7 @@ app.set("view engine", "ejs"); // EJS setup
 app.set("views", path.join(__dirname, "views")); // Set the views directory
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 const session = require("express-session");
 app.use(
   session({
@@ -66,14 +67,12 @@ app.get("/posts", async (req, res) => {
       // createdAt: -1, sort by createdAt in descending order.
     });
 
-    // DDONG
-    // 각 피드에 isLiked 필드 추가
     const posts = feeds.map((feed) => ({
       ...feed.toObject(),
-      isLiked: feed.likes.includes(req.session.username), // 현재 사용자가 좋아요를 눌렀는지 여부
+      isLiked: feed.likes.includes(req.session.username),
     }));
 
-    res.render("posts", { posts });
+    res.render("posts", { posts, username: req.session.username });
   } catch (error) {
     console.error("Error loading posts", error);
     res.status(500).send("Error loading posts");
@@ -256,6 +255,65 @@ app.post("/posts/:uuid/like", async (req, res) => {
   } catch (err) {
     console.error("Error toggling like:", err);
     res.status(500).send("Error toggling like");
+  }
+});
+
+app.post("/posts/:uuid/comment", async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  const { text } = req.body;
+
+  if (!text || text.trim() === "") {
+    return res.status(400).send("Comment cannot be empty");
+  }
+
+  try {
+    const feed = await Feed.findOne({ uuid: req.params.uuid });
+
+    if (!feed) {
+      return res.status(404).send("Feed not found");
+    }
+
+    // Add the comment to the feed
+    feed.comments.push({
+      username: req.session.username,
+      text: text.trim(),
+    });
+
+    await feed.save();
+
+    res.json({ comments: feed.comments, username: req.session.username }); // Return updated comments
+  } catch (err) {
+    console.error("Error adding comment:", err);
+    res.status(500).send("Error adding comment");
+  }
+});
+
+app.delete("/posts/:uuid/comment/:commentId", async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  try {
+    const feed = await Feed.findOne({ uuid: req.params.uuid });
+
+    if (!feed) {
+      return res.status(404).send("Feed not found");
+    }
+
+    // Find and remove the comment
+    feed.comments = feed.comments.filter(
+      (comment) => comment._id.toString() !== req.params.commentId
+    );
+
+    await feed.save();
+
+    res.json({ comments: feed.comments, username: req.session.username }); // Return updated comments
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+    res.status(500).send("Error deleting comment");
   }
 });
 

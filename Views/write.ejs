@@ -2,32 +2,47 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Write a Post - Mini SNS</title>
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/write.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </head>
-  <body>
+  <body class="bg-light">
     <%- include("header") %>
-    <h1>✍️ Write a New Post</h1>
+    <div class="container py-5">
+      <h1 class="text-center text-primary mb-4">
+        <i class="bi bi-pencil-square"></i> Write a New Post
+      </h1>
 
-    <!-- Form to submit a new post -->
-    <form action="/write" method="post">
-      <label for="content">Your Post:</label><br />
-      <textarea
-        id="content"
-        name="content"
-        rows="5"
-        cols="40"
-        placeholder="What's on your mind?"
-        required
-      ></textarea
-      ><br />
-
-      <button type="submit">Post</button>
-    </form>
-
-    <br />
-    <!-- Link back to home -->
+      <!-- Form to submit a new post -->
+      <div class="card mx-auto shadow-sm" style="max-width: 600px">
+        <div class="card-body">
+          <form action="/write" method="post">
+            <div class="mb-3">
+              <label for="content" class="form-label"> Your Post: </label>
+              <textarea
+                id="content"
+                name="content"
+                class="form-control"
+                rows="5"
+                placeholder="What's on your mind?"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold">
+              <i class="bi bi-send"></i> Post
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
     <%- include("footer") %>
   </body>
 </html>

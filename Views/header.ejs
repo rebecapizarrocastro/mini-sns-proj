@@ -1,1 +1,42 @@
-<a href="/logout">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand text-primary fw-bold" href="/">
+      <i class="bi bi-chat-dots"></i> Mini SNS
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-primary" href="/posts">
+            <i class="bi bi-card-list"></i> Posts
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-primary" href="/write">
+            <i class="bi bi-pencil-square"></i> Write
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-primary" href="/friends/list">
+            <i class="bi bi-people"></i> Friends
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="/logout">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
